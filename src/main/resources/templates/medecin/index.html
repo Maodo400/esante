@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Medecin Management System</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+	
+</head>
+<body>
+
+	<div class="container">
+	<h1>Liste des medecins</h1>
+	
+	<a th:href = "@{/medecin/add_medecin}" class="btn btn-primary btn-sm mb-3"> Add Medecin </a>
+	
+		<table class = "table table-striped table-responsive">
+			<thead>
+				<tr>
+				<th>
+						<a th:href="@{'/medecin/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
+							ID du Medecin</a>
+					</th>
+					<th>
+						<a th:href="@{'/medecin/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
+							Nom du Medecin</a>
+					</th>
+					<th>
+					<a th:href="@{'/medecin/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
+						Email du Medecin</a>
+					</th>
+					<th> Actions </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="medecin : ${list_medecins}">
+					<td th:text="${medecin.id}"></td>
+					<td th:text="${medecin.nom}"></td>
+					<td th:text="${medecin.email}"></td>
+					<td class="text-right">
+                        <div class="btn-group"> <a th:href="@{/medecin/update_medecin/{id}(id=${medecin.id})}" class="btn btn-info btn-sm">Update</a>
+					    <a th:href="@{/medecin/delete_medecin/{id}(id=${medecin.id})}" class="btn btn-danger btn-sm">Delete</a></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div th:if = "${totalPages > 1}">
+			<div class = "row col-sm-10">
+				<div class = "col-sm-2">
+					Total Rows: [[${totalItems}]] 
+				</div>
+				<div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/medecin/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+				</div>
+<!-- 				<div class = "col-sm-1"> -->
+<!-- 					<a th:if="${currentPage < totalPages}" th:href="@{'/medecin/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a> -->
+<!-- 					<span th:unless="${currentPage < totalPages}">Previous</span> -->
+<!-- 				</div> -->
+				<div class = "col-sm-1">
+					<a th:if="${currentPage < totalPages}" th:href="@{'/medecin/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+					<span th:unless="${currentPage < totalPages}">Next</span>
+				</div>
+				
+				 <div class="col-sm-1">
+    				<a th:if="${currentPage < totalPages}" th:href="@{'/medecin/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+					<span th:unless="${currentPage < totalPages}">Last</span>
+   				 </div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

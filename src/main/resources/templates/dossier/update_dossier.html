@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Dossier Management System</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<h1>Gestion des Dossiers</h1>
+		<hr>
+		<h2>Enregistrer Dossier</h2>
+
+		<form action="#" th:action="@{/dossiers/save_dossier}" th:object="${dossier}"
+			method="POST">
+				<input type="hidden" th:field="*{id}" />
+				
+				<input type="text" th:field="*{traitement}"
+				placeholder="Traitement" class="form-control mb-4 col-4">
+				
+				<input type="text" th:field="*{chronique}"
+				placeholder="Chronique" class="form-control mb-4 col-4">
+				
+				<input type="text" th:field="*{allergie}"
+				placeholder="Allergie" class="form-control mb-4 col-4">
+				
+				<input type="text" th:field="*{etat}"
+				placeholder="Etat de Santé" class="form-control mb-4 col-4">
+				
+				<input type="number" th:field="*{taille}"
+				placeholder="Taille" class="form-control mb-4 col-4">
+				
+				<input type="number" th:field="*{poids}"
+				placeholder="Poids" class="form-control mb-4 col-4">
+				
+				<input type="text" th:field="*{groupeSanguin}"
+				placeholder="Groupe Sanguin" class="form-control mb-4 col-4">
+				
+				<button type="submit" class="btn btn-info col-2"> Save Dossier</button>
+		</form>
+		
+		<hr>
+		
+		<a th:href = "@{/dossiers/}"> Back to Dossier List</a>
+	</div>
+</body>
+</html>

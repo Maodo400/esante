@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Departement Management System</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<h1>Departement Management System</h1>
+		<hr>
+		<h2>Update Departement</h2>
+
+		<form action="#" th:action="@{/dept/save_dept}" th:object="${departement}"
+			method="POST">
+			
+			<!-- Add hidden form field to handle update -->
+			<input type="hidden" th:field="*{id}" />
+			
+			<input type="text" th:field="*{nom}" class="form-control mb-4 col-4">
+								
+				<input type="text" th:field="*{email}" class="form-control mb-4 col-4">
+				
+				<button type="submit" class="btn btn-info col-2"> Update Departement</button>
+		</form>
+		
+		<hr>
+		
+		<a th:href = "@{/dept/}"> Back to Departement List</a>
+	</div>
+</body>
+</html>
