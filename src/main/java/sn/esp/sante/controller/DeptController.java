@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sn.esp.sante.model.Departement;
+import sn.esp.sante.model.User;
 import sn.esp.sante.service.DeptService;
+import sn.esp.sante.service.UserService;
 
 @Validated
 @Controller
@@ -27,9 +31,22 @@ public class DeptController {
 	@Autowired
 	private DeptService deptService;
 	
+	@Autowired
+	private UserService userService;
+	
+	@ModelAttribute("loggedInUser")
+    public User populateUserDetails(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedInUser = userService.findUserByEmail(auth.getName());
+        model.addAttribute("isUser", userService.isUser(loggedInUser));
+        model.addAttribute("isAdmin", userService.isAdmin(loggedInUser));
+        model.addAttribute("isMedecin", userService.isMedecin(loggedInUser));
+        return loggedInUser;
+    }
 	// display list of Departements
 	@GetMapping("/")
 	public String viewHomePage(Model model) {
+		populateUserDetails(model);
 		return findPaginated(1, "nom", "asc", model);		
 	}
 	
@@ -48,11 +65,12 @@ public class DeptController {
 //		return "redirect:/depts/";
 		
 		if (bindingResult.hasErrors()) {
-			BindingResult br = bindingResult;
             model.addAttribute("errors", bindingResult.getAllErrors());
             //System.out.println(br.getFieldValue("nom"));
             return "departement/new_departement";
         }
+        departement.setLastModifiedBy(populateUserDetails(model).getUsername());
+		departement.setCreatedBy(populateUserDetails(model).getUsername());
         deptService.saveDept(departement);
         return "redirect:/depts/";
    
@@ -100,7 +118,7 @@ public class DeptController {
 		return "departement/index";
 	}
 	@GetMapping("/delete_dept/{id}")
-    public String deleteUser(@PathVariable("id") int id, Model model) {
+    public String deleteDept(@PathVariable("id") int id, Model model) {
         model.addAttribute("dept_id", id);
         return "departement/confirm_delete";
     }

@@ -2,8 +2,12 @@ package sn.esp.sante.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +35,21 @@ public class DossierMedController {
 	@Autowired
 	private UserRepository userRepository;
 	
+    @ModelAttribute("loggedInUser")
+    public User populateUserDetails(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedInUser = userService.findUserByEmail(auth.getName());
+        model.addAttribute("isUser", userService.isUser(loggedInUser));
+        model.addAttribute("isAdmin", userService.isAdmin(loggedInUser));
+        model.addAttribute("isMedecin", userService.isMedecin(loggedInUser));
+        return loggedInUser;
+    }
+	
 	// display list of DossierMeds
 	@GetMapping("/")
-	public String viewHomePage(Model model) {
+	public String viewHomePage(Model model, @ModelAttribute User loggedInUser) {
+		populateUserDetails(model);
+
 		return findPaginated(1, "id", "asc", model);		
 	}
 	
@@ -46,15 +62,46 @@ public class DossierMedController {
 	}
 	
 	@PostMapping("/save_dossier")
-	public String saveDossierMed(@ModelAttribute("dossier") DossierMed dossier,
-			@ModelAttribute("user") User user) {
+	public String saveDossierMed(@ModelAttribute("dossier") DossierMed dossier, Model model,
+			@ModelAttribute("user")@Valid User user) {
 		// save DossierMed to database
-		user.setCreatedBy("ADMIN");
-		dossier.setUser(user);
+		User user1 = userService.getUserById(user.getId());
+        dossier.setLastModifiedBy(populateUserDetails(model).getUsername());
+		dossier.setCreatedBy(populateUserDetails(model).getUsername());
+		dossier.setUser(user1);
 		dossierService.saveDossierMed(dossier);
 		return "redirect:/dossiers/";
 	}
 	
+	@PostMapping("/save_dossier1")
+	public String saveDossierMed1(@ModelAttribute("dossier") DossierMed dossier,@ModelAttribute("user1")@Valid User user) {
+        dossier.setLastModifiedBy(user.getUsername());
+		dossier.setCreatedBy(user.getUsername());
+		dossierService.saveDossierMed(dossier);
+		return "redirect:/dossiers/";
+	}
+	
+//	@PostMapping("/save_dossier_update")
+//	public String saveDossierMedUpdate(@ModelAttribute("dossier") DossierMed dossier,
+//			@ModelAttribute("user") User user) {
+//		// save DossierMed to database
+//		dossierService.saveDossierMed(dossier);
+//		return "redirect:/user/affiche/"+user.getId();
+//	}
+//	
+//	@GetMapping("/update_dossier_update/{id}")
+//	public String showFormForUpdateu(@PathVariable ( value = "id") long id, Model model) {
+//		
+//		// get DossierMed from the service
+//		//DossierMed dossier = dossierService.getDossierMedById(id);
+//		
+//		// set DossierMed as a model attribute to pre-populate the form
+//		model.addAttribute("dossier", dossierService.getDossierMedById(id));
+//		model.addAttribute("user", userService.getUserById(dossierService.getDossierMedById(id).getUser().getId()));
+//		//model.addAttribute("dossier", dossier);
+//		return "dossier/update_dossier";
+//	}
+//	
 	@GetMapping("/update_dossier/{id}")
 	public String showFormForUpdate(@PathVariable ( value = "id") long id, Model model) {
 		
@@ -63,17 +110,10 @@ public class DossierMedController {
 		
 		// set DossierMed as a model attribute to pre-populate the form
 		model.addAttribute("dossier", dossierService.getDossierMedById(id));
+		model.addAttribute("user1", userService.getUserById(dossierService.getDossierMedById(id).getUser().getId()));
 		//model.addAttribute("user", userService.getUserById(1));
 		//model.addAttribute("dossier", dossier);
 		return "dossier/update_dossier";
-	}
-	
-	@GetMapping("/delete_dossier/{id}")
-	public String deleteDossierMed(@PathVariable (value = "id") long id) {
-		
-		// call delete DossierMed method 
-		this.dossierService.deleteDossierMedById(id);
-		return "redirect:/dossiers/";
 	}
 	
 	
@@ -98,5 +138,15 @@ public class DossierMedController {
 		model.addAttribute("list_dossiers", listDossierMeds);
 		return "dossier/index";
 	}
+	@GetMapping("/delete_dossier/{id}")
+    public String deleteDept(@PathVariable("id") int id, Model model) {
+        model.addAttribute("dossier_id", id);
+        return "dossier/confirm_delete";
+    }
+    @PostMapping("/delete_dossier/{id}")
+    public String confirmDeleteUser(@PathVariable("id") int id) {
+        this.dossierService.deleteDossierMedById(id);
+        return "redirect:/dossiers/";
+    }
 }
 

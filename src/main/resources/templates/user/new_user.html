@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="utf-8">
-<title>User Management System</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-</head>
+<head th:insert="~{fragment/header :: head}">
+
 <body>
+   <div th:insert="~{fragment/header :: my-navbar}"></div>
+
 	<div class="container">
 		<h1>Gestion des services</h1>
 		<hr>
@@ -17,26 +13,36 @@
 		<form action="#" th:action="@{/users/register}" th:object="${user}"
 			method="POST">
 			<input type="text" th:field="*{firstname}"
-				placeholder="Prénom" class="form-control mb-4 col-4">
+				placeholder="Prénom" class="form-control mb-4 col-4"><br>
 				
 				<input type="text" th:field="*{lastname}"
-				placeholder="Nom" class="form-control mb-4 col-4">
+				placeholder="Nom" class="form-control mb-4 col-4"><br>
 				
 				<input type="text" th:field="*{email}"
-				placeholder="Email" class="form-control mb-4 col-4">
+				placeholder="Email" class="form-control mb-4 col-4"><br>
+        
+                <input type="text" th:field="*{adresse}"
+                placeholder="Adresse" class="form-control mb-4 col-4"><br>
+        
+                <input type="text" th:field="*{tel}"
+                placeholder="Téléphone" class="form-control mb-4 col-4"><br>
 				
 				<input type="date" th:field="*{birthday}"
 				placeholder="Date de Naissance" class="form-control mb-4 col-4">
 				
 				<input type="password" th:field="*{password}"
-				placeholder="Password" class="form-control mb-4 col-4">
+				placeholder="Password" class="form-control mb-4 col-4"><br>
 				
 				<button type="submit" class="btn btn-info col-2"> Save User</button>
+				<ul>
+				<th:block th:each="error : ${errors}">
+					<li class="error" th:text="${error.defaultMessage}">..</li>
+				</th:block>
+			</ul>
 		</form>
 		
 		<hr>
 		
-		<a th:href = "@{/users/}"> Back to User List</a>
+		<a th:href = "@{/user/}"> Back to User List</a>
 	</div>
-</body>
-</html>
+<div th:insert="~{fragment/header :: footer}"></div>

@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<title>Departement Management System</title>
-
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-</head>
+<head th:insert="~{fragment/header :: head}">
 <body>
+   <div th:insert="~{fragment/header :: my-navbar}"></div>
 	<div class="container">
 		<h1>Departement Management System</h1>
 		<hr>
@@ -30,5 +25,4 @@
 		
 		<a th:href = "@{/dept/}"> Back to Departement List</a>
 	</div>
-</body>
-</html>
+<div th:insert="~{fragment/header :: footer}"></div>

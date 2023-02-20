@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head th:insert="~{fragment/header :: head}">
+<body>
+<div class="modal-dialog">
+        <div class="modal-content">
+	<form th:action="@{/dossiers/delete_dossier/{dossier_id}(dossier_id=${dossier_id})}"
+		method="post">
+		<div class="modal-header">
+			<h4 class="modal-title">Confirm
+				delete operation</h4>
+
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+		</div>
+		<div class="modal-body">
+<!-- 		<img src="../images/right.png" class="img-responsive"> -->
+            <h1 class="h1">Are You Sure?</h1>
+            <p>Do you really want to delete these records? This process cannot be undone.</p>
+		</div>
+
+		<div class="modal-footer">
+			<a class="btn btn-secondary btn-lg mr-2 rounded-lg" th:href="@{/dossiers/}">Cancel</a>
+
+
+			<button type="submit" class="btn btn-danger btn-lg rounded-lg">
+				<fa-icon icon="times"></fa-icon>
+				&nbsp;<span>Delete</span>
+			</button>
+		</div>
+	</form>
+	</div>
+	</div>
+<div th:insert="~{fragment/header :: footer}"></div>
+
