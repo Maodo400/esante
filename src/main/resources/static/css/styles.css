@@ -2006,47 +2006,22 @@ hr {
 	-o-animation-timing-function: linear
 }
 
-@
--webkit-keyframes float-bob { 0%{
+@-webkit-keyframes float-bob { 0%{
 	-webkit-transform: translateY(-20px);
 	transform: translateY(-20px)
 }
 
-50
-%
-{
--webkit-transform
-:
-translateY(
--10px
-);
-transform
-:
-translateY(
--10px
-)
-}
-100
-%
-{
--webkit-transform
-:
-translateY(
--20px
-);
-transform
-:
-translateY(
--20px
-)
-}
+50%{-webkit-transform:translateY(-10px);
+transform:translateY(-10px)}
+100%{-webkit-transform:
+translateY(-20px);
+transform:translateY(-20px)}
 }
 .heartbeat {
 	animation: heartbeat 1s infinite alternate
 }
 
-@
--webkit-keyframes heartbeat {
+@-webkit-keyframes heartbeat {
 	to {-webkit-transform: scale(1.03);
 	transform: scale(1.03)
 }
@@ -2063,8 +2038,7 @@ translateY(
 	animation-timing-function: linear
 }
 
-@
-keyframes rotateme {
+@keyframes rotateme {
 	from {-webkit-transform: rotate(0deg);
 	transform: rotate(0deg)
 }
@@ -2075,8 +2049,7 @@ to {
 }
 
 }
-@
--webkit-keyframes rotateme {
+@-webkit-keyframes rotateme {
 	from {-webkit-transform: rotate(0deg)
 }
 
@@ -2155,8 +2128,7 @@ to {
 	text-transform: uppercase
 }
 
-@
--webkit-keyframes zoom { 0%{
+@-webkit-keyframes zoom { 0%{
 	-webkit-transform: rotate(0deg);
 	transform: rotate(0deg);
 	-webkit-transition: .6s;
@@ -2164,8 +2136,7 @@ to {
 	transition: .6s
 }
 
-100
-%
+100%
 {
 -webkit-transform
 :
@@ -2188,8 +2159,7 @@ transition
 .6s
 }
 }
-@
-keyframes zoom { 0%{
+@keyframes zoom { 0%{
 	-webkit-transform: rotate(0deg);
 	transform: rotate(0deg);
 	-webkit-transition: .6s;
@@ -2197,8 +2167,7 @@ keyframes zoom { 0%{
 	transition: .6s
 }
 
-100
-%
+100%
 {
 -webkit-transform
 :

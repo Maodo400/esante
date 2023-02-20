@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="utf-8">
-<title>Medical HTML-5 Template</title>
+<title>Medical</title>
 
 <!-- CSS here -->
 <link rel="stylesheet"
@@ -25,16 +25,15 @@
             <div class="row">
               <div class="col-xl-7 col-lg-9 col-md-8 col-sm-9">
                 <div class="hero__caption">
-                  <span>Committed to success</span>
+                  <span>E-Santé</span>
                   <h1 class="cd-headline letters scale">
-                    We care about your <strong class="cd-words-wrapper">
-                      <b class="is-visible">health</b> <b>sushi</b> <b>steak</b>
+                    Gestion des dossiers<strong class="cd-words-wrapper">
+                      <b class="is-visible">Médicaux</b>
                     </strong>
                   </h1>
-                  <p data-animation="fadeInLeft" data-delay="0.1s">Ut
-                    enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi uquip ex ea commodo consequat
-                    is aute irure.</p>
+                  <p data-animation="fadeInLeft" data-delay="0.1s">Le système ainsi créé permet aux médecins
+                  des établissements de santé de stocker et de mettre à jour les dossiers médicaux de leurs 
+                  patients</p>
                   <a
                     th:href="@{/user/affiche_user/{id}(id=${loggedInUser.id})}"
                     class="btn hero-btn" data-animation="fadeInLeft"
